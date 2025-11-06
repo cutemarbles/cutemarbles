@@ -78,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     productCards.forEach(card => {
         const addToCartBtn = card.querySelector('.add-to-cart-btn');
-        const quickViewBtn = card.querySelector('.quick-view-btn');
         
         // 加入購物車按鈕效果
         if (addToCartBtn) {
@@ -101,13 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // 快速查看按鈕效果
-        if (quickViewBtn) {
-            quickViewBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                showNotification('快速查看功能開發中...', 'info');
-            });
-        }
+        // 已移除快速查看功能
     });
 });
 
@@ -317,14 +310,18 @@ function sortProducts(sortType) {
     const productCards = Array.from(document.querySelectorAll('.product-card'));
     
     productCards.sort((a, b) => {
+        if (sortType === 'name-asc' || sortType === 'name-desc') {
+            const nameA = a.querySelector('h3').textContent.trim().toLowerCase();
+            const nameB = b.querySelector('h3').textContent.trim().toLowerCase();
+            if (nameA < nameB) return sortType === 'name-asc' ? -1 : 1;
+            if (nameA > nameB) return sortType === 'name-asc' ? 1 : -1;
+            return 0;
+        }
+
         const priceA = parseFloat(a.querySelector('.current-price').textContent.replace(/[^\d]/g, ''));
         const priceB = parseFloat(b.querySelector('.current-price').textContent.replace(/[^\d]/g, ''));
-        
-        if (sortType === 'price-low') {
-            return priceA - priceB;
-        } else if (sortType === 'price-high') {
-            return priceB - priceA;
-        }
+        if (sortType === 'price-low') return priceA - priceB;
+        if (sortType === 'price-high') return priceB - priceA;
         return 0;
     });
     
@@ -333,3 +330,25 @@ function sortProducts(sortType) {
         productsContainer.appendChild(card);
     });
 }
+
+// 綁定搜尋與排序控制
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('product-search');
+    const sortSelect = document.getElementById('product-sort');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            searchProducts(this.value);
+        });
+    }
+
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            sortProducts(this.value);
+        });
+        // 預設載入時改為價格由低到高
+        sortSelect.value = 'price-low';
+        sortProducts('price-low');
+    }
+});
+

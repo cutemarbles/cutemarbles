@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品展示 - 公司名稱</title>
+    <title>禮品名單 - 公司名稱</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -19,7 +19,7 @@
                     <a href="index.html" class="nav-link">首頁</a>
                 </li>
                 <li class="nav-item">
-                    <a href="products.html" class="nav-link active">商品展示</a>
+                    <a href="products.html" class="nav-link active">禮品名單</a>
                 </li>
                 <li class="nav-item">
                     <a href="index.html#about" class="nav-link">關於我們</a>
@@ -36,11 +36,11 @@
         </div>
     </nav>
 
-    <!-- 商品頁面標題 -->
+    <!-- 禮品頁面標題 -->
     <section class="page-header">
         <div class="container">
-            <h1>商品展示</h1>
-            <p>探索我們精選的優質產品</p>
+            <h1>禮品名單</h1>
+            <p>探索我們精選的禮品</p>
         </div>
     </section>
 
@@ -52,7 +52,25 @@
                 <button class="filter-btn" data-filter="electronics">電子產品</button>
                 <button class="filter-btn" data-filter="home">居家用品</button>
                 <button class="filter-btn" data-filter="office">辦公用品</button>
-                <button class="filter-btn" data-filter="sports">運動用品</button>
+                <button class="filter-btn" data-filter="toys">玩具</button>
+                <button class="filter-btn" data-filter="figures">公仔</button>
+                <button class="filter-btn" data-filter="food">食物</button>
+            </div>
+            <div class="product-actions">
+                <div class="search-group">
+                    <i class="fas fa-search"></i>
+                    <input id="product-search" type="text" placeholder="搜尋商品名稱或描述...">
+                </div>
+                <div class="sort-group">
+                    <label for="product-sort">排序：</label>
+                    <select id="product-sort">
+                        <option value="default">預設</option>
+                        <option value="price-low" selected>價格：由低到高</option>
+                        <option value="price-high">價格：由高到低</option>
+                        <option value="name-asc">名稱：A → Z</option>
+                        <option value="name-desc">名稱：Z → A</option>
+                    </select>
+                </div>
             </div>
         </div>
     </section>
@@ -65,52 +83,42 @@
                 <div class="product-card" data-category="electronics">
                     <div class="product-image">
                         <img src="https://via.placeholder.com/300x250/ff6b6b/ffffff?text=智慧手機" alt="智慧手機">
-                        <div class="product-overlay">
-                            <button class="quick-view-btn">快速查看</button>
-                        </div>
                     </div>
                     <div class="product-info">
                         <h3>智慧手機 Pro Max</h3>
                         <p class="product-description">最新款智慧手機，配備先進的攝影系統和強大的處理器</p>
                         <div class="product-price">
-                            <span class="current-price">NT$ 25,900</span>
-                            <span class="original-price">NT$ 29,900</span>
+                            <span class="current-price">積分 25,900</span>
+                            <span class="original-price">積分 29,900</span>
                         </div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="rating-text">(4.8)</span>
+                        
+                    </div>
+                </div>
+                
+                <div class="product-card" data-category="food">
+                    <div class="product-image">
+                        <img src="calbee-bigpack.jpg" alt="大熱浪">
+                    </div>
+                    <div class="product-info">
+                        <h3>大熱浪</h3>
+                        <div class="product-price">
+                            <span class="current-price">積分 16</span>
                         </div>
-                        <button class="add-to-cart-btn">加入購物車</button>
                     </div>
                 </div>
 
                 <div class="product-card" data-category="electronics">
                     <div class="product-image">
                         <img src="https://via.placeholder.com/300x250/4ecdc4/ffffff?text=筆記型電腦" alt="筆記型電腦">
-                        <div class="product-overlay">
-                            <button class="quick-view-btn">快速查看</button>
-                        </div>
                     </div>
                     <div class="product-info">
                         <h3>筆記型電腦 Ultra</h3>
                         <p class="product-description">高效能筆記型電腦，適合商務和創意工作</p>
                         <div class="product-price">
-                            <span class="current-price">NT$ 45,900</span>
-                            <span class="original-price">NT$ 52,900</span>
+                            <span class="current-price">積分 45,900</span>
+                            <span class="original-price">積分 52,900</span>
                         </div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="rating-text">(4.2)</span>
-                        </div>
-                        <button class="add-to-cart-btn">加入購物車</button>
+                        
                     </div>
                 </div>
 
@@ -118,52 +126,30 @@
                 <div class="product-card" data-category="home">
                     <div class="product-image">
                         <img src="https://via.placeholder.com/300x250/45b7d1/ffffff?text=空氣清淨機" alt="空氣清淨機">
-                        <div class="product-overlay">
-                            <button class="quick-view-btn">快速查看</button>
-                        </div>
                     </div>
                     <div class="product-info">
                         <h3>空氣清淨機 Pro</h3>
                         <p class="product-description">高效能空氣清淨機，提供清新健康的室內空氣</p>
                         <div class="product-price">
-                            <span class="current-price">NT$ 8,900</span>
-                            <span class="original-price">NT$ 12,900</span>
+                            <span class="current-price">積分 8,900</span>
+                            <span class="original-price">積分 12,900</span>
                         </div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="rating-text">(4.9)</span>
-                        </div>
-                        <button class="add-to-cart-btn">加入購物車</button>
+                        
                     </div>
                 </div>
 
                 <div class="product-card" data-category="home">
                     <div class="product-image">
                         <img src="https://via.placeholder.com/300x250/96ceb4/ffffff?text=咖啡機" alt="咖啡機">
-                        <div class="product-overlay">
-                            <button class="quick-view-btn">快速查看</button>
-                        </div>
                     </div>
                     <div class="product-info">
                         <h3>全自動咖啡機</h3>
                         <p class="product-description">專業級全自動咖啡機，在家享受咖啡廳品質</p>
                         <div class="product-price">
-                            <span class="current-price">NT$ 15,900</span>
-                            <span class="original-price">NT$ 19,900</span>
+                            <span class="current-price">積分 15,900</span>
+                            <span class="original-price">積分 19,900</span>
                         </div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="rating-text">(4.3)</span>
-                        </div>
-                        <button class="add-to-cart-btn">加入購物車</button>
+                        
                     </div>
                 </div>
 
@@ -171,105 +157,90 @@
                 <div class="product-card" data-category="office">
                     <div class="product-image">
                         <img src="https://via.placeholder.com/300x250/feca57/ffffff?text=無線滑鼠" alt="無線滑鼠">
-                        <div class="product-overlay">
-                            <button class="quick-view-btn">快速查看</button>
-                        </div>
                     </div>
                     <div class="product-info">
                         <h3>無線滑鼠 Pro</h3>
                         <p class="product-description">人體工學設計的無線滑鼠，提供精確的操控體驗</p>
                         <div class="product-price">
-                            <span class="current-price">NT$ 1,290</span>
-                            <span class="original-price">NT$ 1,890</span>
+                            <span class="current-price">積分 1,290</span>
+                            <span class="original-price">積分 1,890</span>
                         </div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="rating-text">(4.7)</span>
-                        </div>
-                        <button class="add-to-cart-btn">加入購物車</button>
+                        
                     </div>
                 </div>
 
                 <div class="product-card" data-category="office">
                     <div class="product-image">
                         <img src="https://via.placeholder.com/300x250/ff9ff3/ffffff?text=機械鍵盤" alt="機械鍵盤">
-                        <div class="product-overlay">
-                            <button class="quick-view-btn">快速查看</button>
-                        </div>
                     </div>
                     <div class="product-info">
                         <h3>機械鍵盤 RGB</h3>
                         <p class="product-description">RGB背光機械鍵盤，提供舒適的打字體驗</p>
                         <div class="product-price">
-                            <span class="current-price">NT$ 3,290</span>
-                            <span class="original-price">NT$ 4,290</span>
+                            <span class="current-price">積分 3,290</span>
+                            <span class="original-price">積分 4,290</span>
                         </div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="rating-text">(4.4)</span>
-                        </div>
-                        <button class="add-to-cart-btn">加入購物車</button>
+                        
                     </div>
                 </div>
 
-                <!-- 運動用品 -->
-                <div class="product-card" data-category="sports">
+                <!-- 玩具 -->
+                <div class="product-card" data-category="toys">
                     <div class="product-image">
-                        <img src="https://via.placeholder.com/300x250/54a0ff/ffffff?text=運動手錶" alt="運動手錶">
-                        <div class="product-overlay">
-                            <button class="quick-view-btn">快速查看</button>
-                        </div>
+                        <img src="https://via.placeholder.com/300x250/54a0ff/ffffff?text=遙控車" alt="遙控車">
                     </div>
                     <div class="product-info">
-                        <h3>智慧運動手錶</h3>
-                        <p class="product-description">多功能智慧運動手錶，監測健康數據和運動表現</p>
+                        <h3>高速遙控車</h3>
+                        <p class="product-description">高扭力馬達與避震設計，操控流暢、速度感十足</p>
                         <div class="product-price">
-                            <span class="current-price">NT$ 6,900</span>
-                            <span class="original-price">NT$ 8,900</span>
+                            <span class="current-price">積分 6,900</span>
+                            <span class="original-price">積分 8,900</span>
                         </div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <span class="rating-text">(4.6)</span>
-                        </div>
-                        <button class="add-to-cart-btn">加入購物車</button>
+                        
                     </div>
                 </div>
 
-                <div class="product-card" data-category="sports">
+                <div class="product-card" data-category="toys">
                     <div class="product-image">
-                        <img src="https://via.placeholder.com/300x250/5f27cd/ffffff?text=瑜珈墊" alt="瑜珈墊">
-                        <div class="product-overlay">
-                            <button class="quick-view-btn">快速查看</button>
-                        </div>
+                        <img src="https://via.placeholder.com/300x250/5f27cd/ffffff?text=積木組" alt="積木組">
                     </div>
                     <div class="product-info">
-                        <h3>專業瑜珈墊</h3>
-                        <p class="product-description">防滑專業瑜珈墊，提供穩定的運動基礎</p>
+                        <h3>創意積木組</h3>
+                        <p class="product-description">百件以上的積木零件，啟發孩子的想像力與創造力</p>
                         <div class="product-price">
-                            <span class="current-price">NT$ 1,890</span>
-                            <span class="original-price">NT$ 2,490</span>
+                            <span class="current-price">積分 1,890</span>
+                            <span class="original-price">積分 2,490</span>
                         </div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <span class="rating-text">(4.1)</span>
+                        
+                    </div>
+                </div>
+
+                <!-- 公仔 -->
+                <div class="product-card" data-category="figures">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/300x250/f368e0/ffffff?text=公仔" alt="公仔">
+                    </div>
+                    <div class="product-info">
+                        <h3>限定款角色公仔</h3>
+                        <p class="product-description">精緻塗裝與可動關節，收藏與把玩兼具</p>
+                        <div class="product-price">
+                            <span class="current-price">積分 2,990</span>
+                            <span class="original-price">積分 3,490</span>
                         </div>
-                        <button class="add-to-cart-btn">加入購物車</button>
+                        
+                    </div>
+                </div>
+
+                <!-- 食物 -->
+                <div class="product-card" data-category="food">
+                    <div class="product-image">
+                        <img src="kinder-bueno.jpg" alt="繽紛樂三包裝">
+                    </div>
+                    <div class="product-info">
+                        <h3>繽紛樂三包裝</h3>
+                        <div class="product-price">
+                            <span class="current-price">積分 12</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -282,7 +253,6 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>是CUTE 彈</h3>
-                    <p>專業的產品與服務提供商</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -294,25 +264,17 @@
                     <h4>快速連結</h4>
                     <ul>
                         <li><a href="index.html">首頁</a></li>
-                        <li><a href="products.html">商品展示</a></li>
+                        <li><a href="products.html">禮品名單</a></li>
                         <li><a href="index.html#about">關於我們</a></li>
                         <li><a href="index.html#contact">聯絡我們</a></li>
                     </ul>
                 </div>
-                <div class="footer-section">
-                    <h4>服務項目</h4>
-                    <ul>
-                        <li><a href="#">產品銷售</a></li>
-                        <li><a href="#">技術支援</a></li>
-                        <li><a href="#">售後服務</a></li>
-                        <li><a href="#">客製化服務</a></li>
-                    </ul>
-                </div>
+                
                 <div class="footer-section">
                     <h4>聯絡資訊</h4>
-                    <p><i class="fas fa-phone"></i> +886-2-2345-6789</p>
-                    <p><i class="fas fa-envelope"></i> info@company.com</p>
-                    <p><i class="fas fa-map-marker-alt"></i> 台北市信義區信義路五段7號</p>
+                    <p><i class="fab fa-instagram"></i> <a href="https://www.instagram.com/cute.marbles/" target="_blank" rel="noopener">https://www.instagram.com/cute.marbles/</a></p>
+                    <p><i class="fas fa-envelope"></i> cutemarbles9@gmail.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 旺⻆信和中⼼ 1 樓 117-118 室</p>
                 </div>
             </div>
             <div class="footer-bottom">
