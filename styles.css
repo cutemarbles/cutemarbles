@@ -409,7 +409,8 @@ body {
     border: none;
     background: transparent;
     outline: none;
-    width: 100%;
+    width: auto;      /* 自動寬度 */
+    max-width: 250px; /* 最大寬度限制 */
     font-size: 14px;
     color: #333;
 }
@@ -482,6 +483,73 @@ body {
 }
 
 .product-card[data-category="food"] .product-image img {
+    object-fit: contain;
+    width: 100%;
+    height: 250px;
+}
+
+.product-card[data-category="figures"] .product-image {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-card[data-category="figures"] .product-image img {
+    object-fit: contain;
+    width: 100%;
+    height: 250px;
+}
+
+.product-card[data-category="toys"] .product-image {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-card[data-category="toys"] .product-image img {
+    object-fit: contain;
+    width: 100%;
+    height: 250px;
+}
+
+.product-card[data-category="home"] .product-image {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-card[data-category="home"] .product-image img {
+    object-fit: contain;
+    width: 100%;
+    height: 250px;
+}
+
+
+.product-card[data-category="electronics"] .product-image {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-card[data-category="electronics"] .product-image img {
+    object-fit: contain;
+    width: 100%;
+    height: 250px;
+}
+
+
+.product-card[data-category="office"] .product-image {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-card[data-category="office"] .product-image img {
     object-fit: contain;
     width: 100%;
     height: 250px;
