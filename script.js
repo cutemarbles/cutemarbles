@@ -243,9 +243,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 初始化
+    // 初始化：積分範圍與篩選
     initRangeControls();
     applyFilters();
+
+    // 進入頁面時先自動以「價格：由低到高」排序一次
+    if (typeof sortProducts === 'function') {
+        sortProducts('price-low');
+        if (sortSelect) {
+            sortSelect.value = 'price-low';
+        }
+    }
 });
 
 // 商品卡片互動效果
