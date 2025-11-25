@@ -46,30 +46,206 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// 商品篩選功能
+// 商品篩選＋搜尋＋積分範圍 Filter
 document.addEventListener('DOMContentLoaded', function() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const productCards = document.querySelectorAll('.product-card');
-    
+
+    // 若頁面上沒有商品區塊，直接略過
+    if (!productCards.length) return;
+
+    // 搜尋與排序相關元素
+    const searchInput = document.getElementById('product-search');
+    const sortSelect = document.getElementById('product-sort');
+
+    // 積分範圍相關元素
+    const rangeMin = document.getElementById('range-min');
+    const rangeMax = document.getElementById('range-max');
+    const minValueInput = document.getElementById('min-value-input');
+    const maxValueInput = document.getElementById('max-value-input');
+    const rangeProgress = document.getElementById('range-progress');
+    const filteredCountEl = document.getElementById('filtered-count');
+
+    // 取得所有商品的積分數值，動態決定最小/最大範圍
+    const allPoints = Array.from(productCards).map(card => {
+        const priceEl = card.querySelector('.current-price');
+        if (!priceEl) return 0;
+        // 例如：「積分 18,888」→ 18888
+        const num = parseFloat(priceEl.textContent.replace(/[^\d]/g, '')) || 0;
+        return num;
+    });
+
+    const globalMin = allPoints.length ? Math.min(...allPoints) : 0;
+    const globalMax = allPoints.length ? Math.max(...allPoints) : 0;
+
+    // Filter 狀態
+    let activeCategory = 'all';
+    let searchTerm = '';
+    let currentMin = globalMin;
+    let currentMax = globalMax;
+
+    // 初始化積分拉條與輸入框
+    function initRangeControls() {
+        if (!rangeMin || !rangeMax || !minValueInput || !maxValueInput || !rangeProgress) return;
+
+        // 設定 input 的 min / max 邊界（可保留原來 HTML 的值，但用資料實際範圍覆蓋比較直覺）
+        rangeMin.min = globalMin;
+        rangeMin.max = globalMax;
+        rangeMax.min = globalMin;
+        rangeMax.max = globalMax;
+
+        currentMin = globalMin;
+        currentMax = globalMax;
+
+        rangeMin.value = String(currentMin);
+        rangeMax.value = String(currentMax);
+        minValueInput.value = String(currentMin);
+        maxValueInput.value = String(currentMax);
+
+        updateRangeUI();
+    }
+
+    function updateRangeUI() {
+        if (!rangeMin || !rangeMax || !minValueInput || !maxValueInput || !rangeProgress) return;
+
+        const minVal = Math.min(Number(rangeMin.value), Number(rangeMax.value));
+        const maxVal = Math.max(Number(rangeMin.value), Number(rangeMax.value));
+
+        currentMin = minVal;
+        currentMax = maxVal;
+
+        minValueInput.value = String(currentMin);
+        maxValueInput.value = String(currentMax);
+
+        // 進度條百分比
+        const totalRange = globalMax - globalMin || 1;
+        const minPercent = ((currentMin - globalMin) / totalRange) * 100;
+        const maxPercent = ((currentMax - globalMin) / totalRange) * 100;
+
+        rangeProgress.style.left = `${minPercent}%`;
+        rangeProgress.style.right = `${100 - maxPercent}%`;
+    }
+
+    // 統一套用所有條件的 Filter
+    function applyFilters() {
+        let matchCount = 0;
+
+        const term = searchTerm.trim().toLowerCase();
+
+        productCards.forEach(card => {
+            const category = card.getAttribute('data-category') || '';
+            const nameEl = card.querySelector('h3');
+            const descEl = card.querySelector('.product-description');
+            const priceEl = card.querySelector('.current-price');
+
+            const nameText = nameEl ? nameEl.textContent.toLowerCase() : '';
+            const descText = descEl ? descEl.textContent.toLowerCase() : '';
+            const searchMatch = !term || nameText.includes(term) || descText.includes(term);
+
+            const categoryMatch = (activeCategory === 'all') || category === activeCategory;
+
+            let points = 0;
+            if (priceEl) {
+                points = parseFloat(priceEl.textContent.replace(/[^\d]/g, '')) || 0;
+            }
+            const pointsMatch = points >= currentMin && points <= currentMax;
+
+            const visible = searchMatch && categoryMatch && pointsMatch;
+
+            if (visible) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeInUp 0.5s ease';
+                matchCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        if (filteredCountEl) {
+            filteredCountEl.textContent = String(matchCount);
+        }
+    }
+
+    // 綁定分類按鈕
     filterButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // 移除所有按鈕的active類別
+            // 移除所有按鈕的 active
             filterButtons.forEach(btn => btn.classList.remove('active'));
-            // 為當前按鈕添加active類別
             this.classList.add('active');
-            
-            const filterValue = this.getAttribute('data-filter');
-            
-            productCards.forEach(card => {
-                if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-                    card.style.display = 'block';
-                    card.style.animation = 'fadeInUp 0.5s ease';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+
+            activeCategory = this.getAttribute('data-filter') || 'all';
+            applyFilters();
         });
     });
+
+    // 綁定搜尋
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            searchTerm = this.value || '';
+            applyFilters();
+        });
+    }
+
+    // 綁定積分拉條
+    if (rangeMin && rangeMax) {
+        const minGap = 0; // 最小間距，如需避免重疊可改成 10 之類
+
+        rangeMin.addEventListener('input', function() {
+            let minVal = Number(rangeMin.value);
+            let maxVal = Number(rangeMax.value);
+            if (minVal > maxVal - minGap) {
+                minVal = maxVal - minGap;
+                rangeMin.value = String(minVal);
+            }
+            updateRangeUI();
+            applyFilters();
+        });
+
+        rangeMax.addEventListener('input', function() {
+            let minVal = Number(rangeMin.value);
+            let maxVal = Number(rangeMax.value);
+            if (maxVal < minVal + minGap) {
+                maxVal = minVal + minGap;
+                rangeMax.value = String(maxVal);
+            }
+            updateRangeUI();
+            applyFilters();
+        });
+        }
+
+    // 綁定數字輸入框
+    if (minValueInput && maxValueInput) {
+        minValueInput.addEventListener('change', function() {
+            let val = Number(minValueInput.value) || globalMin;
+            val = Math.max(globalMin, Math.min(val, globalMax));
+            if (val > currentMax) val = currentMax;
+            rangeMin.value = String(val);
+            updateRangeUI();
+            applyFilters();
+        });
+
+        maxValueInput.addEventListener('change', function() {
+            let val = Number(maxValueInput.value) || globalMax;
+            val = Math.max(globalMin, Math.min(val, globalMax));
+            if (val < currentMin) val = currentMin;
+            rangeMax.value = String(val);
+            updateRangeUI();
+            applyFilters();
+        });
+    }
+
+    // 重置按鈕
+    const resetBtn = document.getElementById('range-reset');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            initRangeControls();
+            applyFilters();
+        });
+    }
+
+    // 初始化
+    initRangeControls();
+    applyFilters();
 });
 
 // 商品卡片互動效果
@@ -78,6 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     productCards.forEach(card => {
         const addToCartBtn = card.querySelector('.add-to-cart-btn');
+        const quickViewBtn = card.querySelector('.quick-view-btn');
         
         // 加入購物車按鈕效果
         if (addToCartBtn) {
@@ -100,7 +277,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // 已移除快速查看功能
+        // 快速查看按鈕效果
+        if (quickViewBtn) {
+            quickViewBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                showNotification('快速查看功能開發中...', 'info');
+            });
+        }
     });
 });
 
@@ -287,23 +470,6 @@ window.addEventListener('load', function() {
     }
 });
 
-// 商品搜尋功能（可選）
-function searchProducts(query) {
-    const productCards = document.querySelectorAll('.product-card');
-    const searchTerm = query.toLowerCase();
-    
-    productCards.forEach(card => {
-        const productName = card.querySelector('h3').textContent.toLowerCase();
-        const productDesc = card.querySelector('.product-description').textContent.toLowerCase();
-        
-        if (productName.includes(searchTerm) || productDesc.includes(searchTerm)) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-}
-
 // 價格排序功能（可選）
 function sortProducts(sortType) {
     const productsContainer = document.querySelector('.products-grid');
@@ -346,9 +512,6 @@ document.addEventListener('DOMContentLoaded', function() {
         sortSelect.addEventListener('change', function() {
             sortProducts(this.value);
         });
-        // 預設載入時改為價格由低到高
-        sortSelect.value = 'price-low';
-        sortProducts('price-low');
     }
 });
 

@@ -72,6 +72,38 @@
                     </select>
                 </div>
             </div>
+            
+            <!-- 積分範圍篩選 -->
+            <div class="points-range-filter">
+                <div class="range-header">
+                    <i class="fas fa-coins"></i>
+                    <span class="range-title">積分範圍篩選</span>
+                    <button class="range-reset-btn" id="range-reset">
+                        <i class="fas fa-undo"></i> 重置
+                    </button>
+                </div>
+                <div class="range-slider-container">
+                    <div class="range-track">
+                        <div class="range-progress" id="range-progress"></div>
+                    </div>
+                    <input type="range" class="range-input range-min" id="range-min" min="0" max="20000" value="0" step="10">
+                    <input type="range" class="range-input range-max" id="range-max" min="0" max="20000" value="20000" step="10">
+                </div>
+                <div class="range-values">
+                    <div class="range-value-box">
+                        <label>最低積分</label>
+                        <input type="number" id="min-value-input" min="0" max="20000" value="0">
+                    </div>
+                    <span class="range-separator">—</span>
+                    <div class="range-value-box">
+                        <label>最高積分</label>
+                        <input type="number" id="max-value-input" min="0" max="20000" value="20000">
+                    </div>
+                </div>
+                <div class="range-count">
+                    符合條件商品：<span id="filtered-count">0</span> 件
+                </div>
+            </div>
         </div>
     </section>
 
@@ -813,7 +845,7 @@
                 </div>
 				
 					
-				<div class="product-card" data-category="figures">
+			<!--	<div class="product-card" data-category="figures">
                     <div class="product-image">
                         <img src="fish.jpg" alt="大水怪">
                     </div>
@@ -825,7 +857,7 @@
                         </div>
                         
                     </div>
-                </div>
+                </div> -->
 				
 				<div class="product-card" data-category="figures">
                     <div class="product-image">
